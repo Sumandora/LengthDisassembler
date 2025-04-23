@@ -71,7 +71,7 @@ int main(int argc, const char** argv)
 			continue;
 		}
 
-		std::expected<Instruction, Error> result = disassemble(nibbles.data(), mode);
+		std::expected<Instruction, Error> result = disassemble(nibbles.data(), mode, nibbles.size());
 
 		if (!result.has_value()) {
 			std::println(std::cerr, "Disassembly of '{}' failed with error: {}", hex_string, std::to_underlying(result.error()));

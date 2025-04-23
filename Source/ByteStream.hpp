@@ -13,9 +13,9 @@ class ByteStream {
 	std::uint8_t index = 0;
 
 public:
-	ByteStream(const std::byte* bytes, std::uint8_t length)
+	ByteStream(const std::byte* bytes, std::uint8_t sentinel)
 		: bytes(bytes)
-		, length(length)
+		, length(sentinel)
 	{
 	}
 

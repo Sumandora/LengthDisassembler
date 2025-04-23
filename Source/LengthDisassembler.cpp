@@ -489,7 +489,7 @@ static std::expected<bool, Error> handle_instructions_explicitly(ByteStream& str
 
 std::expected<Instruction, Error> LengthDisassembler::disassemble(std::byte* bytes, MachineMode mode, std::uint8_t max_length)
 {
-	ByteStream stream{ bytes, max_length };
+	ByteStream stream{ bytes, static_cast<std::uint8_t>(max_length + 1) };
 
 	Instruction instruction{
 		.length = 0,
