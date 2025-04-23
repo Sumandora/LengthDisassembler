@@ -38,6 +38,19 @@ int main(int argc, const char** argv)
 		return 1;
 	}
 
+	ZydisMachineMode zydis_mode = ZYDIS_MACHINE_MODE_LONG_64;
+	switch (mode) {
+	case MachineMode::VIRTUAL8086:
+		zydis_mode = ZYDIS_MACHINE_MODE_REAL_16;
+		break;
+	case MachineMode::LONG_COMPATIBILITY_MODE:
+		zydis_mode = ZYDIS_MACHINE_MODE_LONG_COMPAT_32;
+		break;
+	case MachineMode::LONG_MODE:
+		zydis_mode = ZYDIS_MACHINE_MODE_LONG_64;
+		break;
+	}
+
 	int failed_tests = 0;
 
 	for (std::string hex_string; std::getline(std::cin, hex_string);) {
@@ -47,19 +60,6 @@ int main(int argc, const char** argv)
 			const std::string hex_number{ hex_string.substr(i, 2) };
 			int b = std::stoi(hex_number, nullptr, 16);
 			nibbles.push_back(static_cast<std::byte>(b));
-		}
-
-		ZydisMachineMode zydis_mode = ZYDIS_MACHINE_MODE_LONG_64;
-		switch (mode) {
-		case MachineMode::VIRTUAL8086:
-			zydis_mode = ZYDIS_MACHINE_MODE_REAL_16;
-			break;
-		case MachineMode::LONG_COMPATIBILITY_MODE:
-			zydis_mode = ZYDIS_MACHINE_MODE_LONG_COMPAT_32;
-			break;
-		case MachineMode::LONG_MODE:
-			zydis_mode = ZYDIS_MACHINE_MODE_LONG_64;
-			break;
 		}
 
 		ZydisDisassembledInstruction instruction;
@@ -73,7 +73,7 @@ int main(int argc, const char** argv)
 
 		std::expected<Instruction, Error> result = disassemble(nibbles.data(), mode);
 
-		if(!result.has_value()) {
+		if (!result.has_value()) {
 			std::println(std::cerr, "Disassembly of '{}' failed with error: {}", hex_string, std::to_underlying(result.error()));
 			failed_tests = std::add_sat(failed_tests, 1);
 			continue;
