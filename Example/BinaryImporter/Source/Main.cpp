@@ -15,6 +15,7 @@
 #include "Zydis/DecoderTypes.h"
 #include "Zydis/Disassembler.h"
 #include "Zydis/SharedTypes.h"
+#include "Zydis/Zydis.h"
 
 int main(int argc, const char** argv)
 {
@@ -69,8 +70,8 @@ int main(int argc, const char** argv)
 			return 1;
 		}
 
-		for (const auto & op : instruction.operands) {
-				switch (op.type) {
+		for (const auto& op : instruction.operands) {
+			switch (op.type) {
 			case ZYDIS_OPERAND_TYPE_UNUSED:
 			case ZYDIS_OPERAND_TYPE_REGISTER:
 				continue;
