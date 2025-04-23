@@ -274,7 +274,8 @@ static std::uint8_t parse_two_byte_vex(ByteStream& bytes, std::uint8_t& opcode_m
 {
 	assert(bytes.has(2));
 
-	assert(bytes.next().value() == 0xC5);
+	const std::uint8_t b = bytes.next().value();
+	assert(b == 0xC5);
 
 	opcode_map = 0b00001;
 
@@ -288,7 +289,8 @@ static std::uint8_t parse_three_byte_vex(ByteStream& bytes,
 {
 	assert(bytes.has(3));
 
-	assert(bytes.next().value() == 0xC4);
+	const std::uint8_t b = bytes.next().value();
+	assert(b == 0xC4);
 
 	opcode_map = bytes.next().value() & 0b11111;
 
@@ -303,7 +305,8 @@ static std::uint8_t parse_three_byte_xop(ByteStream& bytes,
 {
 	assert(bytes.has(3));
 
-	assert(bytes.next().value() == 0x8F);
+	const std::uint8_t b = bytes.next().value();
+	assert(b == 0x8F);
 
 	opcode_map = bytes.next().value() & 0b11111;
 
@@ -321,7 +324,9 @@ static std::uint8_t parse_evex(ByteStream& bytes,
 {
 	assert(bytes.has(4));
 
-	assert(bytes.next().value() == 0x62);
+	const std::uint8_t b = bytes.next().value();
+	assert(b == 0x62);
+
 	opcode_map = bytes.next().value() & 0b111;
 
 	operand_size_override = (bytes.next().value() >> 7) & 0b1; // VEX.W
@@ -338,7 +343,8 @@ static bool is_3dnow(const ByteStream& bytes)
 
 static std::expected<void, Error> handle_3dnow(ByteStream& bytes, bool addressing_with_16bit, std::uint8_t& map, std::uint8_t& opcode)
 {
-	assert(bytes.consume(2)); // 0x0F0F
+	const bool had_0f_0f = bytes.consume(2); // 0x0F0F
+	assert(had_0f_0f);
 
 	std::uint8_t displacement = 0;
 	PROPAGATE_RESULT(ModRM{}.parse(bytes, displacement, addressing_with_16bit));
