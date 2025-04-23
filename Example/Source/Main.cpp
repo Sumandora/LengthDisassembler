@@ -6,10 +6,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <expected>
 #include <iostream>
 #include <numeric>
 #include <print>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <Zycore/Status.h>
@@ -69,10 +71,18 @@ int main(int argc, const char** argv)
 			continue;
 		}
 
-		std::uint8_t guess = disassemble(nibbles.data(), mode).value().length;
+		std::expected<Instruction, Error> result = disassemble(nibbles.data(), mode);
+
+		if(!result.has_value()) {
+			std::println(std::cerr, "Disassembly of '{}' failed with error: {}", hex_string, std::to_underlying(result.error()));
+			failed_tests = std::add_sat(failed_tests, 1);
+			continue;
+		}
+
+		std::uint8_t guess = result.value().length;
 
 		if (guess != instruction.info.length) {
-			std::println(std::cerr, "Expected {} but got {}", instruction.info.length, guess);
+			std::println(std::cerr, "Expected {} but got {} on {}", instruction.info.length, guess, hex_string);
 			failed_tests = std::add_sat(failed_tests, 1);
 		}
 	}

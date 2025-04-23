@@ -28,7 +28,7 @@ function run_test_set() {
 		>&2 echo "Failed to process: $line"
 		fails=$((fails+$status))
 	fi
-	tests_completed=$(($tests_completed+$tests_count-$fails))
+	tests_completed=$(($tests_completed+$tests_count-$status))
 }
 
 IFS='\n'
