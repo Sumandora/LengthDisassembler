@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <expected>
-#include <limits>
 
 namespace LengthDisassembler {
 	enum class MachineMode : std::uint8_t {
@@ -33,13 +32,15 @@ namespace LengthDisassembler {
 
 	enum class Error : std::uint8_t {
 		NO_MORE_DATA, // The byte array ended prematurely, no instruction can be parsed from it.
-		UNKNOWN_INSTRUCTION, // The instruction wasn't found in the opcode tables. WARNING: Invalid instructions can slip past this, calling `disassemble` on invalid encodings is undefined behavior, the opcode table is optimized to never expect this kind of error.
+		UNKNOWN_INSTRUCTION, // The instruction wasn't found in the opcode tables. WARNING: Invalid instructions can slip past this, calling `disassemble` on an invalid encoding is undefined behavior, the opcode table is optimized to never expect this kind of error.
 	};
+
+	constexpr std::uint8_t MAX_INSTRUCTION_LENGTH = 15; // The maximum length of a x86 instruction
 
 	std::expected<Instruction, Error> disassemble(
 		std::byte* bytes,
 		MachineMode mode = MachineMode::LONG_MODE,
-		std::uint8_t max_length = std::numeric_limits<std::uint8_t>::max());
+		std::uint8_t max_length = MAX_INSTRUCTION_LENGTH);
 }
 
 #endif
