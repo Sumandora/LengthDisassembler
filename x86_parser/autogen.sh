@@ -2,7 +2,7 @@
 
 previous_dir=$(pwd)
 
-base_dir=$(dirname "$0")
+base_dir=$(realpath "$(dirname "$0")")
 
 cd "$base_dir" || exit 1
 rm -rf xed-build
