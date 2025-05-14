@@ -4,3 +4,5 @@ Cargo.lock
 test.json
 generated_table.h
 generated_thin_table.h
+
+xed-build/

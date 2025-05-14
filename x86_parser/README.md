@@ -19,14 +19,16 @@ Here is a tutorial on how to regenerate the tables this:
 ```bash
 $ mkdir xed-build
 $ cd xed-build
-$ git clone https://github.com/intelxed/xed --depth 1
 $ git clone https://github.com/intelxed/mbuild --depth 1
+$ git clone https://github.com/intelxed/xed --depth 1
 $ git clone https://github.com/ctchou/xed_utils --depth 1
 $ mkdir build
 $ cd build
 $ ../xed/mfile.py just-prep
 $ ../xed_utils/xed_db.py -j test.json
 ```
+
+Alternatively, use the `build.sh` script, which will rebuild using the same commit hashes.
 
 A `test.json` should have appeared in the current directory (`./xed-build/build`).
 
