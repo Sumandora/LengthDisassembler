@@ -1,12 +1,12 @@
 # x86_parser
 
-This is the tool that generates the opcode tables. If you are here it is likely that you are interested in regenerating the `opcode_infos.h`.
+This is the tool that generates the opcode tables. If you are here it is likely that you are interested in regenerating the `GeneratedOpcodeTables.h`.
 
 > [!CAUTION]
 > The regeneration relies on several out of tree projects, that are not pinned to any version.
 > The generated json file is also quite unpredictable as in new features may be added, which break this generator
 
-The commits that where used to generate the current version of the opcode_tables.h file are
+The commits that where used to generate the current version of the GeneratedOpcodeTables.h file are
 
 | Project   | Commit Hash                              |
 | --------- | ---------------------------------------- |
@@ -28,7 +28,7 @@ $ ../xed/mfile.py just-prep
 $ ../xed_utils/xed_db.py -j test.json
 ```
 
-Alternatively, use the `build.sh` script, which will rebuild using the same commit hashes.
+Alternatively, use the `autogen.sh` script, which will rebuild using the same commit hashes.
 
 A `test.json` should have appeared in the current directory (`./xed-build/build`).
 
@@ -36,7 +36,7 @@ This test.json should be placed in the same directory as the x86_parser (`./x86_
 
 Then run the parser with `cargo run`, feel free to use `cargo run --release` as it is faster, once compiled.
 
-The generation of the compressed table is quite slow, but even on low-end hardware it only takes a couple of seconds, so I won't optimize it.
+The generation of the compressed table isn't well implemented, but even on low-end hardware it only takes a couple of seconds, so I won't optimize it.
 
 ## Credits
 
