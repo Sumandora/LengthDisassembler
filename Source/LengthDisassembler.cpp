@@ -75,11 +75,10 @@ static void count_prefixes(ByteStream& bytes,
 {
 	while (!bytes.empty()) {
 		const std::uint8_t next = bytes.peek().value();
-		if (std::uint8_t* it = std::ranges::find(legacy_prefixes, next);
-			it != std::end(legacy_prefixes)) {
-			if (*it == 0x66)
+		if (std::ranges::contains(legacy_prefixes, next)) {
+			if (next == 0x66)
 				operand_override_prefix = true;
-			if (*it == 0x67)
+			if (next == 0x67)
 				address_override_prefix = true;
 
 			// This is undefined/undocumented. When there are multiple REX prefixes, the last one counts, but
