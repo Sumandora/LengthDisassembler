@@ -40,7 +40,7 @@ namespace Opcodes {
 
 #include "GeneratedOpcodeTables.h"
 
-#undef OPCODE_TABLE_DEF
+#undef OPCODE_SIZE_TYPE
 #undef RANGE_OPCODE_INSN_DEF
 #undef OPCODE_INSN_DEF
 #undef OPCODE_TABLE_DEFINITION 
