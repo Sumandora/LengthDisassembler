@@ -35,7 +35,7 @@ namespace Opcodes {
 #define OPCODE_INSN_DEF(modrm, fixed, disp_asz, disp_osz, imm_osz, uimm_osz) \
 	{ modrm, fixed, disp_asz, disp_osz, imm_osz, uimm_osz }
 #define RANGE_OPCODE_INSN_DEF(from, to, info) { from, to, info }
-#define OPCODE_TABLE_DEF(table_name, length) { table_name, length }
+#define OPCODE_SIZE_TYPE std::uint8_t
 	// NOLINTEND(cppcoreguidelines-macro-usage)
 
 #include "GeneratedOpcodeTables.h"
@@ -51,10 +51,9 @@ namespace Opcodes {
 		if (map >= std::size(OPCODE_TABLES))
 			return nullptr;
 
-		const OpcodeTableDefinition& table = OPCODE_TABLES[map];
-		const OpcodeInfoRange* ranges = table.ranges;
+		const OpcodeInfoRange* ranges = OPCODE_TABLES[map];
 
-		for (std::uint8_t i = 0; i < table.len; i++)
+		for (std::uint8_t i = 0; i < OPCODE_TABLE_SIZES[map]; i++)
 			if (opcode >= ranges[i].from && opcode <= ranges[i].to)
 				return &ranges[i].info;
 

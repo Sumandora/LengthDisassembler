@@ -437,20 +437,21 @@ fn build_thin_table(table: &[Vec<Option<ParsedInstruction>>]) {
         rules_counts.push(rules.len());
     }
 
+    writeln!(thin_table, "const OPCODE_INFO_RANGE* OPCODE_TABLES[] = {{").unwrap();
+    for (map, _) in table.iter().enumerate() {
+        writeln!(thin_table, "\tOPCODE_TABLE_{map},").unwrap();
+    }
+    writeln!(thin_table, "}};\n").unwrap();
+
     writeln!(
         thin_table,
-        "const OPCODE_TABLE_DEFINITION OPCODE_TABLES[] = {{"
+        "const OPCODE_SIZE_TYPE OPCODE_TABLE_SIZES[] = {{"
     )
     .unwrap();
     for (map, _) in table.iter().enumerate() {
-        writeln!(
-            thin_table,
-            "\tOPCODE_TABLE_DEF(OPCODE_TABLE_{map}, {}),",
-            rules_counts.get(map).unwrap()
-        )
-        .unwrap();
+        writeln!(thin_table, "\t{},", rules_counts.get(map).unwrap()).unwrap();
     }
-    writeln!(thin_table, "}};").unwrap();
+    writeln!(thin_table, "}};\n").unwrap();
 }
 
 fn main() {
